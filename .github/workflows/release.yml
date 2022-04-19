@@ -27,8 +27,8 @@ on:
         description: "Version of the vpn. Only numbers"
         required: true
       hopr:
-      description: "Version of the hopr. Only numbers"
-      required: false
+        description: "Version of the hopr. Only numbers"
+        required: false
 
 env:
   BIND_VERSION: ${{ github.event.inputs.bind }}
