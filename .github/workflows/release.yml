@@ -26,6 +26,9 @@ on:
       vpn:
         description: "Version of the vpn. Only numbers"
         required: true
+      hopr:
+      description: "Version of the hopr. Only numbers"
+      required: false
 
 env:
   BIND_VERSION: ${{ github.event.inputs.bind }}
@@ -36,6 +39,7 @@ env:
   HTTPS_VERSION: ${{ github.event.inputs.https }}
   VPN_VERSION: ${{ github.event.inputs.vpn }}
   CORE_VERSION: ${{ github.event.inputs.core }}
+  HOPR_VERSION: ${{ github.event.inputs.hopr }}
 
 jobs:
   pre-release:
@@ -51,7 +55,8 @@ jobs:
         run: |
           [[ $BIND_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $IPFS_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $DAPPMANAGER_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && \
             [[ $WIFI_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $WIREGUARD_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $HTTPS_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && \
-            [[ $VPN_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $CORE_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "versions introduced in wrong format"; exit 1; }
+            [[ $VPN_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $CORE_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ $HOPR_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && \ 
+            [[ $CORE_VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "versions introduced in wrong format"; exit 1; }
 
       - name: Checkout
         uses: actions/checkout@v2.3.1
@@ -66,6 +71,7 @@ jobs:
           sed -i -e "/WIFI_VERSION/s/[0-9]*\.[0-9]*\.[0-9]*/"${WIFI_VERSION}"/" .dappnode_profile
           sed -i -e "/WIREGUARD_VERSION/s/[0-9]*\.[0-9]*\.[0-9]*/"${WIREGUARD_VERSION}"/" .dappnode_profile
           sed -i -e "/HTTPS_VERSION/s/[0-9]*\.[0-9]*\.[0-9]*/"${HTTPS_VERSION}"/" .dappnode_profile
+          sed -i -e "/HOPR_VERSION/s/[0-9]*\.[0-9]*\.[0-9]*/"${HOPR}"/" .dappnode_profile
           cat .dappnode_profile
 
       # ISO ATTENDED
